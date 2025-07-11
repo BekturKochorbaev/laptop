@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.urls import path, include
 from store.views import LaptopListApiView, LaptopDetailApiView, ContactListApiView, AboutUsListApiView, \
-    WarrantyListApiView, OrderCreateApiView, CartViewSet, CartItemViewSet
+    WarrantyListApiView, OrderCreateApiView, CartViewSet, CartItemViewSet, DeliveryListApiView
 
 urlpatterns = [
     path('laptop/', LaptopListApiView.as_view()),
     path('laptop/<int:pk>/', LaptopDetailApiView.as_view()),
     path('contact/', ContactListApiView.as_view()),
     path('aboutus/', AboutUsListApiView.as_view()),
+    path('delivery/', DeliveryListApiView.as_view()),
     path('warranty/', WarrantyListApiView.as_view()),
     path('order/', OrderCreateApiView.as_view()),
 

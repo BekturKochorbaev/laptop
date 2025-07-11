@@ -47,6 +47,11 @@ class AboutUsListApiView(ListAPIView):
     serializer_class = AboutUsSerializers
 
 
+class DeliveryListApiView(ListAPIView):
+    queryset = Delivery.objects.all()
+    serializer_class = DeliverySerializers
+
+
 class WarrantyListApiView(ListAPIView):
     queryset = Warranty.objects.all()
     serializer_class = WarrantySerializers

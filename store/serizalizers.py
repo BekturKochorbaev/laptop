@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty
+from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty, Delivery
 from .services import send_to_telegram
 
 
@@ -45,6 +45,13 @@ class AboutUsSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = AboutUs
+        fields = '__all__'
+
+
+class DeliverySerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Delivery
         fields = '__all__'
 
 

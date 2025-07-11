@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import LaptopImage, Laptop, ContactNumber, Contact, AboutUs, Warranty
+from .models import LaptopImage, Laptop, ContactNumber, Contact, AboutUs, Warranty, Delivery
 
 
 class LaptopImageInline(admin.TabularInline):
@@ -26,4 +26,5 @@ class ContactAdmin(admin.ModelAdmin):
 
 admin.site.register(Contact, ContactAdmin)
 admin.site.register(AboutUs)
+admin.site.register(Delivery)
 admin.site.register(Warranty)

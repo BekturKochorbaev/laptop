@@ -121,6 +121,14 @@ class AboutUs(models.Model):
         verbose_name_plural = 'О Нас'
 
 
+class Delivery(models.Model):
+    description = models.TextField('Описание')
+
+    class Meta:
+        verbose_name = 'Доставка'
+        verbose_name_plural = 'Доставка'
+
+
 class Warranty(models.Model):
     description = models.TextField('Описание')
 
