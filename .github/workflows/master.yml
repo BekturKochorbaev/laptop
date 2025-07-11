@@ -42,6 +42,7 @@ jobs:
         run: |
           ssh target "
             cd laptop/ && \
+            chmod +x manage.py && \
             sudo docker-compose down && \
             git fetch origin && \
             git reset --hard origin/master && \
