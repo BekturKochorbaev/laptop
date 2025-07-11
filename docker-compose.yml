@@ -5,10 +5,10 @@ services:
   web:
     build: .
     command: >
-      bash -c "./manage.py collectstatic --noinput &&
-               ./manage.py makemigrations accounts &&
-               ./manage.py makemigrations store &&
-               ./manage.py migrate &&
+      bash -c "python manage.py collectstatic --noinput &&
+               python manage.py makemigrations accounts &&
+               python manage.py makemigrations store &&
+               python manage.py migrate &&
                gunicorn -b 0.0.0.0:8000 laptop.wsgi:application"
     volumes:
       - .:/app
