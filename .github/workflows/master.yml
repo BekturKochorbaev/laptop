@@ -18,6 +18,7 @@ jobs:
     name: Deploy
     needs: quality-assurance
     runs-on: ubuntu-latest
+
     steps:
       - name: Configure SSH
         env:
@@ -28,7 +29,7 @@ jobs:
           mkdir -p ~/.ssh/
           echo "$SSH_PRIVATE_KEY" > ~/.ssh/github
           chmod 600 ~/.ssh/github
-          cat >>~/.ssh/config <<END
+          cat >> ~/.ssh/config <<END
           Host target
             HostName $SSH_HOST
             User $SSH_USER
@@ -36,6 +37,14 @@ jobs:
             LogLevel ERROR
             StrictHostKeyChecking no
           END
-      - name: Run deploy
+
+      - name: Deploy via SSH
         run: |
-          ssh target "cd laptop/ && sudo docker-compose down && git pull && sudo docker-compose build && sudo docker-compose up -d --force-recreate"
+          ssh target "
+            cd laptop/ && \
+            sudo docker-compose down && \
+            git fetch origin && \
+            git reset --hard origin/master && \
+            sudo docker-compose build && \
+            sudo docker-compose up -d --force-recreate
+          "
