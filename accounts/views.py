@@ -53,27 +53,28 @@ class UserLogoutView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-@api_view(['POST'])
-def verify_reset_code(request):
-    serializer = VerifyResetCodeSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save()
-        return Response({'message': 'Пароль успешно сброшен.'}, status=status.HTTP_200_OK)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import VerifyResetCodeSerializer
 
 
-@api_view(['POST'])
-@swagger_auto_schema(
-    request_body=openapi.Schema(
-        type=openapi.TYPE_OBJECT,
-        properties={
-            'email': openapi.Schema(type=openapi.FORMAT_EMAIL, description='email'),
-        },
-        required=['refresh_token']
-    ),
-)
-def custom_password_reset(request):
-    response = ResetPasswordRequestToken.as_view()(request._request)
-    if response.status_code == 200:
-        return Response({'status': "Код отправлен"}, status=status.HTTP_200_OK)
-    return response
+class VerifyResetCodeView(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            required=['email', 'reset_code', 'new_password'],
+            properties={
+                'email': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_EMAIL),
+                'reset_code': openapi.Schema(type=openapi.TYPE_INTEGER),
+                'new_password': openapi.Schema(type=openapi.TYPE_STRING),
+            },
+        )
+    )
+    def post(self, request):
+        serializer = VerifyResetCodeSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'message': 'Пароль успешно сброшен.'}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

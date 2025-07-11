@@ -73,46 +73,19 @@ class UserLogoutSerializer(serializers.Serializer):
 
 
 class VerifyResetCodeSerializer(serializers.Serializer):
-    email = serializers.EmailField()
-    reset_code = serializers.IntegerField()
-    new_password = serializers.CharField(write_only=True)
+    email = serializers.EmailField()  # Email пользователя
+    reset_code = serializers.IntegerField()  # 4-значный код
+    new_password = serializers.CharField(write_only=True)  # Новый пароль
 
     def validate(self, data):
         email = data.get('email')
         reset_code = data.get('reset_code')
-        new_password = data.get('new_password')
 
-        # Проверка кода сброса
+        # Проверяем, существует ли указанный код для email
         try:
             token = ResetPasswordToken.objects.get(user__email=email, key=reset_code)
         except ResetPasswordToken.DoesNotExist:
             raise serializers.ValidationError("Неверный код сброса или email.")
-
-        # Валидация нового пароля
-        # Проверка длины пароля
-        if len(new_password) < 8:
-            raise serializers.ValidationError({
-                'new_password': 'Пароль должен быть не менее 8 символов.'
-            })
-
-        # Проверка наличия заглавной буквы
-        if not any(char.isupper() for char in new_password):
-            raise serializers.ValidationError({
-                'new_password': 'Пароль должен содержать хотя бы одну заглавную букву.'
-            })
-
-        # Проверка наличия цифры
-        if not any(char.isdigit() for char in new_password):
-            raise serializers.ValidationError({
-                'new_password': 'Пароль должен содержать хотя бы одну цифру.'
-            })
-
-        # Проверка наличия специального символа
-        special_characters = "!@#$%^&*()_+-=[]{}|;:,.<>?"
-        if not any(char in special_characters for char in new_password):
-            raise serializers.ValidationError({
-                'new_password': 'Пароль должен содержать хотя бы один специальный символ.'
-            })
 
         data['user'] = token.user
         return data
@@ -120,5 +93,7 @@ class VerifyResetCodeSerializer(serializers.Serializer):
     def save(self):
         user = self.validated_data['user']
         new_password = self.validated_data['new_password']
+
+        # Устанавливаем новый пароль
         user.set_password(new_password)
         user.save()
