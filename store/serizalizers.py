@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart
+from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty
 from .services import send_to_telegram
 
 
@@ -44,14 +44,14 @@ class ContactSerializers(serializers.ModelSerializer):
 class AboutUsSerializers(serializers.ModelSerializer):
 
     class Meta:
-        model = Contact
+        model = AboutUs
         fields = '__all__'
 
 
 class WarrantySerializers(serializers.ModelSerializer):
 
     class Meta:
-        model = Contact
+        model = Warranty
         fields = '__all__'
 
 

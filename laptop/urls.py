@@ -13,7 +13,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('api/', include('store.urls')),
-    path('ckeditor5/', include('django_ckeditor_5.urls')),
 
 ] + yasg
 

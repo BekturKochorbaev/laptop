@@ -1,12 +1,11 @@
 from django.db import models
 from accounts.models import UserProfile
-from django_ckeditor_5.fields import CKEditor5Field
 from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Laptop(models.Model):
     name = models.CharField(max_length=500, verbose_name="Название")
-    description = CKEditor5Field("Описание")
+    description = models.TextField("Описание")
     price = models.IntegerField(verbose_name="Цена")
     in_stock = models.BooleanField(default=False, verbose_name='В Наличии')
     warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
@@ -75,7 +74,7 @@ class LaptopImage(models.Model):
 
 class Contact(models.Model):
     address = models.CharField(max_length=650)
-    work_schedule = CKEditor5Field('График работы:')
+    work_schedule = models.TextField('График работы:')
     email = models.EmailField(verbose_name='Email')
     whatsapp = models.URLField(null=True, blank=True, verbose_name='Ссылка на WatsApp', default='https://wa.me/996771222333')
 
@@ -95,6 +94,9 @@ class ContactNumber(models.Model):
         verbose_name = 'Номер'
         verbose_name_plural = 'Номер'
 
+    def __str__(self):
+        return f'{self.contact}'
+
 
 class Order(models.Model):
     laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE, related_name='order')
@@ -107,9 +109,12 @@ class Order(models.Model):
         verbose_name = 'Заказ'
         verbose_name_plural = 'Заказ'
 
+    def __str__(self):
+        return f'{self.laptop}-{self.full_name}-{self.email}'
+
 
 class AboutUs(models.Model):
-    description = CKEditor5Field('Описание')
+    description = models.TextField('Описание')
 
     class Meta:
         verbose_name = 'О Нас'
@@ -117,7 +122,7 @@ class AboutUs(models.Model):
 
 
 class Warranty(models.Model):
-    description = CKEditor5Field('Описание')
+    description = models.TextField('Описание')
 
     class Meta:
         verbose_name = 'Гарантия'
@@ -131,7 +136,7 @@ class Cart(models.Model):
     def __str__(self):
         return f'{self.user}'
 
-    def get_total_price(self):
+    def R(self):
         return sum(item.get_total_price() for item in self.items.all())
 
 
