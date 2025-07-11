@@ -5,10 +5,14 @@ services:
   web:
     build: .
     command: >
-      bash -c "./manage.py collectstatic --noinput && ./manage.py makemigrations && ./manage.py migrate && gunicorn -b 0.0.0.0:8000 laptop.wsgi:application"
+      bash -c "./manage.py collectstatic --noinput &&
+               ./manage.py makemigrations accounts &&
+               ./manage.py makemigrations store &&
+               ./manage.py migrate &&
+               gunicorn -b 0.0.0.0:8000 laptop.wsgi:application"
     volumes:
       - .:/app
-      - static_volume:/laptop/home/laptop/staticfiles
+      - /home/ubuntu/laptop/staticfiles:/app/static
       - media_volume:/app/media
     ports:
       - "8000:8000"
@@ -30,7 +34,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - static_volume:/laptop/home/laptop/staticfiles
+      - /home/ubuntu/laptop/staticfiles:/app/static
       - media_volume:/app/media
     depends_on:
       - web
