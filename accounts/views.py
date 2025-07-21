@@ -12,7 +12,10 @@ from rest_framework_simplejwt.views import TokenRefreshView
 from .serializers import UserSerializer, UserLoginSerializer, UserLogoutSerializer, VerifyResetCodeSerializer
 
 
-class UserRegisterView(generics.CreateAPIView): # Регистрация для обычных пользователей
+class UserRegisterView(generics.CreateAPIView):
+    """
+    Регистрирует нового пользователя по email и паролю.
+    """
     serializer_class = UserSerializer
 
     def create(self, request, *args, **kwargs):
@@ -77,4 +80,7 @@ class VerifyResetCodeView(APIView):
             serializer.save()
             return Response({'message': 'Пароль успешно сброшен.'}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
 
