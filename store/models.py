@@ -9,6 +9,7 @@ class Laptop(models.Model):
     price = models.IntegerField(verbose_name="Цена")
     in_stock = models.BooleanField(default=False, verbose_name='В Наличии')
     warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
+    brand = models.CharField(max_length=250, verbose_name='Бренд')
 
     screen_size = models.FloatField(verbose_name="Размер экрана (дюймы)")
     screen_type = models.CharField(max_length=150, verbose_name="Тип экрана")
