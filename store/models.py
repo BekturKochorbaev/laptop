@@ -10,7 +10,7 @@ class Laptop(models.Model):
     link = models.URLField(verbose_name='Ссылка на ноутбук', null=True, blank=True)
     price = models.IntegerField(verbose_name="Цена")
     in_stock = models.BooleanField(default=False, verbose_name='В Наличии')
-    discount = models.PositiveSmallIntegerField(verbose_name='Скидка %')
+    discount = models.PositiveSmallIntegerField(verbose_name='Скидка %', null=True, blank=True)
     warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
     brand = models.CharField(max_length=250, verbose_name='Бренд', null=True)
 
