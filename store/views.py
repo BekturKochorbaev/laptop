@@ -57,9 +57,19 @@ class WarrantyListApiView(ListAPIView):
     serializer_class = WarrantySerializers
 
 
+class ServiceListApiView(ListAPIView):
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializers
+
+
 class OrderCreateApiView(CreateAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializers
+
+
+class ServiceCallbackCreateApiView(CreateAPIView):
+    queryset = ServiceCallback.objects.all()
+    serializer_class = ServiceCallbackSerializers
 
 
 class CartViewSet(viewsets.ModelViewSet):

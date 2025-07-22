@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty, Delivery
-from .services import send_to_telegram
+from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty, \
+    Delivery, Service, ServiceCallback, ContactWhatsApp, ContactTelegram, ContactInstagram
+from .services import send_to_telegram, send_to_telegram_callback
 
 
 class LaptopImageSerializers(serializers.ModelSerializer):
@@ -11,11 +12,15 @@ class LaptopImageSerializers(serializers.ModelSerializer):
 
 class LaptopListSerializers(serializers.ModelSerializer):
     laptop_image = LaptopImageSerializers(read_only=True, many=True)
+    discount = serializers.SerializerMethodField()
 
     class Meta:
         model = Laptop
-        fields = ['name', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model', 'width_mm', 'height_mm',
+        fields = ['name', 'discount', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model', 'width_mm',
                   'thickness_mm', 'weight_kg', 'laptop_image', 'price']
+
+    def get_discount(self, obj):
+        return obj.get_discount()
 
 
 class LaptopDetailSerializers(serializers.ModelSerializer):
@@ -33,12 +38,36 @@ class ContactNumberSerializers(serializers.ModelSerializer):
         fields = ['id', 'phone_number']
 
 
+class ContactWhatsAppSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContactWhatsApp
+        fields = ['id', 'whatsapp']
+
+
+class ContactTelegramSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContactTelegram
+        fields = ['id', 'telegram']
+
+
+class ContactInstagramSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = ContactInstagram
+        fields = ['id', 'instagram']
+
+
 class ContactSerializers(serializers.ModelSerializer):
     phone_number = ContactNumberSerializers(read_only=True, many=True)
+    whatsapp = ContactWhatsAppSerializers(read_only=True, many=True)
+    telegram = ContactTelegramSerializers(read_only=True, many=True)
+    instagram = ContactInstagramSerializers(read_only=True, many=True)
 
     class Meta:
         model = Contact
-        fields = '__all__'
+        fields = ['id', 'address', 'work_schedule', 'email', 'phone_number', 'whatsapp', 'telegram', 'instagram']
 
 
 class AboutUsSerializers(serializers.ModelSerializer):
@@ -62,14 +91,32 @@ class WarrantySerializers(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ServiceSerializers(serializers.ModelSerializer):
+
+    class Meta:
+        model = Service
+        fields = '__all__'
+
+
 class OrderSerializers(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['laptop', 'phone_number', 'full_name', 'email', 'description']
+        fields = ['link', 'phone_number', 'full_name', 'email', 'description']
 
     def create(self, validated_data):
         callback = Order.objects.create(**validated_data)
         send_to_telegram(validated_data)
+        return callback
+
+
+class ServiceCallbackSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = ServiceCallback
+        fields = ['phone_number', 'full_name', 'email', 'description']
+
+    def create(self, validated_data):
+        callback = ServiceCallback.objects.create(**validated_data)
+        send_to_telegram_callback(validated_data)
         return callback
 
 

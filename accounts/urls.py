@@ -1,8 +1,11 @@
 from .views import (UserRegisterView, UserLoginView, UserLogoutView,
-                    VerifyResetCodeView, )
+                    VerifyResetCodeView, GoogleAuthRedirectView, GoogleAuthCallbackView)
 from django.urls import path, include
 
+
 urlpatterns = [
+    path("api/auth/google/login/", GoogleAuthRedirectView.as_view()),
+    path("api/auth/google/callback/", GoogleAuthCallbackView.as_view()),
 
     path('register/', UserRegisterView.as_view(), name='user-register'),
     path('login/', UserLoginView.as_view(), name='user-login'),
