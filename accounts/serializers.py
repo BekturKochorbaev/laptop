@@ -62,7 +62,7 @@ class UserLogoutSerializer(serializers.Serializer):
     def validate(self, attrs):
         refresh_token = attrs.get('refresh_token')
         if not refresh_token:
-            raise serializers.ValidationError('Refresh токен не предоставлен.')
+            raise serializers.ValidationError('Refresh токен не предоставлен..')
         try:
             token = RefreshToken(refresh_token)
             token.blacklist()
