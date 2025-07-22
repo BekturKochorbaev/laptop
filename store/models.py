@@ -71,11 +71,6 @@ class Laptop(models.Model):
     def __str__(self):
         return f'{self.name}-{self.price}'
 
-    def get_discount(self):
-        discount = (self.price * self.discount) / 100
-        final_price = (self.price - discount)
-        return final_price
-
 
 class LaptopImage(models.Model):
     laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE, related_name='laptop_image')

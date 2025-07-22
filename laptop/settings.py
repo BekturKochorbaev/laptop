@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'laptop.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'template1',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
         'HOST': 'db',
