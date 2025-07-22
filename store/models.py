@@ -149,7 +149,7 @@ class ContactInstagram(models.Model):
 
 class Order(models.Model):
     link = models.URLField(null=True, blank=True)
-    phone_number = models.CharField(max_length=50, verbose_name='Тел. ном')
+    phone_number = models.CharField(max_length=50,null=True, blank=True, verbose_name='Тел. ном')
     full_name = models.CharField(max_length=150)
     email = models.EmailField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
