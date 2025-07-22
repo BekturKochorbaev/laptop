@@ -16,7 +16,7 @@ class LaptopListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Laptop
-        fields = ['name', 'discount', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model', 'width_mm',
+        fields = ['id', 'name', 'discount', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model', 'width_mm',
                   'thickness_mm', 'weight_kg', 'laptop_image', 'price']
 
     def get_discount(self, obj):
