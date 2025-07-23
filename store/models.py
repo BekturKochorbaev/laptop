@@ -6,7 +6,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 
 class Laptop(models.Model):
     name = models.CharField(max_length=500, verbose_name="Название")
-    description = CKEditor5Field(verbose_name='Описание', config_name='extends')
+    description = models.TextField(verbose_name='Описание')
     link = models.URLField(verbose_name='Ссылка на ноутбук', null=True, blank=True)
     price = models.IntegerField(verbose_name="Цена")
     in_stock = models.BooleanField(default=False, verbose_name='В Наличии')
