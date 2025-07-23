@@ -16,7 +16,7 @@ class LaptopListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Laptop
         fields = ['id', 'name', 'discount', 'in_stock', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model', 'width_mm',
-                  'thickness_mm', 'weight_kg', 'laptop_image', 'price']
+                  'thickness_mm', 'operating_system', 'storage_size_gb', 'weight_kg', 'laptop_image', 'price']
 
 
 class LaptopDetailSerializers(serializers.ModelSerializer):
