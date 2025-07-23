@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenRefreshView
-from .serializers import UserSerializer, UserLoginSerializer, UserLogoutSerializer, VerifyResetCodeSerializer
+from .serializers import UserSerializer, UserLoginSerializer, UserLogoutSerializer, VerifyResetCodeSerializer, UserGetSerializers
 import requests
 from django.conf import settings
 from django.shortcuts import redirect
@@ -19,6 +19,16 @@ from django.views import View
 from django.http import JsonResponse
 from .models import UserProfile
 from django.contrib.auth import login
+
+
+
+class UserGetApiView(generics.ListAPIView):
+    queryset = UserProfile.objects.all()
+    serializer_class = UserGetSerializers
+
+    def get_queryset(self):
+        return UserProfile.objects.filter(id=self.request.user.id)
+
 
 class UserRegisterView(generics.CreateAPIView):
     """

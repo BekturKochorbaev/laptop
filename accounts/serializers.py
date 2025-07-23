@@ -97,3 +97,8 @@ class VerifyResetCodeSerializer(serializers.Serializer):
         # Устанавливаем новый пароль
         user.set_password(new_password)
         user.save()
+
+class UserGetSerializers(serializers.ModelSerializer):
+    class Meta:
+        model  = UserProfile
+        fields = '__all__'
