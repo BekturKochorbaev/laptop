@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty, \
-    Delivery, Service, ServiceCallback, ContactWhatsApp, ContactTelegram, ContactInstagram
-from .services import send_to_telegram, send_to_telegram_callback
+    Delivery, Service, ServiceCallback, ContactWhatsApp, ContactTelegram, ContactInstagram, Callback
+from .services import send_to_telegram, send_to_telegram_service, send_to_telegram_callback
 
 
 class LaptopImageSerializers(serializers.ModelSerializer):
@@ -112,6 +112,17 @@ class ServiceCallbackSerializers(serializers.ModelSerializer):
 
     def create(self, validated_data):
         callback = ServiceCallback.objects.create(**validated_data)
+        send_to_telegram_service(validated_data)
+        return callback
+
+
+class CallbackSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Callback
+        fields = ['phone_number', 'full_name', 'email', 'description']
+
+    def create(self, validated_data):
+        callback = Callback.objects.create(**validated_data)
         send_to_telegram_callback(validated_data)
         return callback
 

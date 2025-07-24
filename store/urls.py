@@ -2,8 +2,7 @@ from django.urls import path, include
 
 from store.views import LaptopListApiView, LaptopDetailApiView, ContactListApiView, AboutUsListApiView, \
     WarrantyListApiView, OrderCreateApiView, CartViewSet, CartItemViewSet, DeliveryListApiView, ServiceListApiView, \
-    ServiceCallbackCreateApiView
-
+    ServiceCallbackCreateApiView, CallbackCreateApiView
 
 urlpatterns = [
     path('laptop/', LaptopListApiView.as_view()),
@@ -15,6 +14,7 @@ urlpatterns = [
     path('service/', ServiceListApiView.as_view()),
     path('order/', OrderCreateApiView.as_view()),
     path('service-callback/', ServiceCallbackCreateApiView.as_view()),
+    path('callback/', CallbackCreateApiView.as_view()),
 
     path('cart/', CartViewSet.as_view({'get': 'retrieve'}), name='cart_detail'),
 

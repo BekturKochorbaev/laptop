@@ -72,6 +72,11 @@ class ServiceCallbackCreateApiView(CreateAPIView):
     serializer_class = ServiceCallbackSerializers
 
 
+class CallbackCreateApiView(CreateAPIView):
+    queryset = Callback.objects.all()
+    serializer_class = CallbackSerializers
+
+
 class CartViewSet(viewsets.ModelViewSet):
     serializer_class = CartSerializer
 

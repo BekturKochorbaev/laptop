@@ -168,7 +168,21 @@ class ServiceCallback(models.Model):
         verbose_name_plural = 'Заявка на сервис'
 
     def __str__(self):
-        return f'{self.laptop}-{self.full_name}-{self.email}'
+        return f'{self.phone_number}-{self.full_name}-{self.email}'
+
+
+class Callback(models.Model):
+    phone_number = models.CharField(max_length=50, verbose_name='Тел. ном')
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Заявка обратной связи'
+        verbose_name_plural = 'Заявка обратной связи'
+
+    def __str__(self):
+        return f'{self.phone_number}-{self.full_name}-{self.email}'
 
 
 class AboutUs(models.Model):
@@ -221,3 +235,5 @@ class CartItem(models.Model):
 
     def get_total_price(self):
         return self.product.price * self.quantity
+
+
