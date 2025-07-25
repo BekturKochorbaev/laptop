@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import LaptopImage, Laptop, ContactNumber, Contact, AboutUs, Warranty, Delivery, Order, ServiceCallback, \
-    ContactWhatsApp, ContactTelegram, ContactInstagram
+    ContactWhatsApp, ContactTelegram, ContactInstagram, Service
 
 
 class LaptopImageInline(admin.TabularInline):
@@ -46,3 +46,4 @@ admin.site.register(Delivery)
 admin.site.register(Warranty)
 admin.site.register(Order)
 admin.site.register(ServiceCallback)
+admin.site.register(Service)
