@@ -57,7 +57,6 @@ class Laptop(models.Model):
     keyboard_backlight = models.BooleanField(default=False, verbose_name="Подсветка клавиатуры")
     battery_type = models.CharField(max_length=150, verbose_name="Тип аккумулятора")
     battery_capacity_wh = models.FloatField(verbose_name="Емкость аккумулятора (Вт·ч)")
-    operation_system = models.CharField(max_length=150, verbose_name='Операционная система')
 
     # Габариты
     width_mm = models.FloatField(verbose_name="Ширина (мм)")
@@ -235,5 +234,13 @@ class CartItem(models.Model):
 
     def get_total_price(self):
         return self.product.price * self.quantity
+
+
+class CartItemCallback(models.Model):
+    phone_number = models.CharField(max_length=50, verbose_name='Тел. ном')
+    full_name = models.CharField(max_length=150)
+    email = models.EmailField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+    product = models.ForeignKey(CartItem, on_delete=models.CASCADE, related_name='laptop')
 
 

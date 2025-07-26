@@ -127,6 +127,24 @@ class CallbackSerializers(serializers.ModelSerializer):
         return callback
 
 
+class CartItemDetailSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    quantity = serializers.IntegerField(min_value=1)
+
+    def validate_id(self, value):
+        if not Laptop.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Продукт с таким ID не найден.")
+        return value
+
+
+class CallbackCreateSerializer(serializers.Serializer):
+    phone_number = serializers.CharField(max_length=50)
+    full_name = serializers.CharField(max_length=150)
+    email = serializers.EmailField(required=False, allow_blank=True)
+    description = serializers.CharField(required=False, allow_blank=True)
+    products = CartItemDetailSerializer(many=True)
+
+
 class CartItemSerializer(serializers.ModelSerializer):
     product = LaptopListSerializers(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(queryset=Laptop.objects.all(), write_only=True, source='product')

@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework.views import APIView
 
 from .filters import LaptopFilter
 from .models import Contact, AboutUs, Warranty
@@ -9,6 +10,8 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
+
+from .services import cart_item_callback
 
 
 class LaptopListApiView(ListAPIView):
@@ -75,6 +78,20 @@ class ServiceCallbackCreateApiView(CreateAPIView):
 class CallbackCreateApiView(CreateAPIView):
     queryset = Callback.objects.all()
     serializer_class = CallbackSerializers
+
+
+class CartCallbackView(APIView):
+    @swagger_auto_schema(
+        request_body=CallbackCreateSerializer,
+        responses={200: openapi.Response("Успешно отправлено")}
+    )
+    def post(self, request):
+        serializer = CallbackCreateSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        cart_item_callback(serializer.validated_data)
+
+        return Response({"detail": "Данные успешно отправлены"}, status=status.HTTP_200_OK)
 
 
 class CartViewSet(viewsets.ModelViewSet):
