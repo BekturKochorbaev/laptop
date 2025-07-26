@@ -10,7 +10,7 @@ class LaptopImageInline(admin.TabularInline):
 
 class LaptopAdmin(admin.ModelAdmin):
     inlines = [LaptopImageInline]
-    list_display = ['name', 'ram_size_gb', 'cpu_model', 'price']
+    list_display = ['id', 'name', 'ram_size_gb', 'cpu_model', 'price']
 
 
 admin.site.register(Laptop, LaptopAdmin)
