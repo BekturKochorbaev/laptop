@@ -45,7 +45,6 @@ class Laptop(models.Model):
 
 
     # Порты
-    usb_type_a_count = models.BooleanField(verbose_name="USB Type-C (шт)")
     hdmi_count = models.BooleanField(default=False, verbose_name="HDMI")
     ethernet_port = models.BooleanField(default=False, verbose_name="Ethernet-порт")
     audio_jack = models.BooleanField(default=True, verbose_name="Аудиоразъём")
