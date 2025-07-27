@@ -11,7 +11,6 @@ def send_to_telegram(data):
         f"💻 Ноутбук:{data['link']}$\n"
         f"📱 Телефон: {data['phone_number']}\n"
         f"📝  Сообщение: {data['description']}\n"
-        f"📩 Email: {data['email']}"
     )
     token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.TELEGRAM_CHAT_ID
@@ -32,7 +31,6 @@ def send_to_telegram_service(data):
         f"👤 Имя: {data['full_name']}\n"
         f"📱 Телефон: {data['phone_number']}\n"
         f"📝  Сообщение: {data['description']}\n"
-        f"📩 Email: {data['email']}"
     )
     token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.TELEGRAM_CHAT_ID
@@ -53,7 +51,6 @@ def send_to_telegram_callback(data):
         f"👤 Имя: {data['full_name']}\n"
         f"📱 Телефон: {data['phone_number']}\n"
         f"📝  Сообщение: {data['description']}\n"
-        f"📩 Email: {data['email']}"
     )
     token = settings.TELEGRAM_BOT_TOKEN
     chat_id = settings.TELEGRAM_CHAT_ID
@@ -79,6 +76,7 @@ def cart_item_callback(data):
             f"    id: {product.id}\n"
             f"    Количество: {item['quantity']}\n"
             f"    Название ноутбука: {product.name}\n"
+            f"    Арктикул: {product.articles}\n"
             f"    Цена: {product.price}\n"
         )
 
@@ -87,7 +85,6 @@ def cart_item_callback(data):
     message = (
         f"📱 Телефон: {data['phone_number']};\n"
         f"👤 Имя: {data['full_name']};\n"
-        f"📩 Email: {data.get('email', '')};\n"
         f"📝  Сообщение: {data.get('description', '')};\n"
         f"Ноутбук:\n{product_text}"
     )

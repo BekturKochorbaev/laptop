@@ -10,6 +10,9 @@ class Laptop(models.Model):
     link = models.URLField(verbose_name='Ссылка на ноутбук', null=True, blank=True)
     price = models.IntegerField(verbose_name="Цена")
     in_stock = models.BooleanField(default=False, verbose_name='В Наличии')
+    in_composition = models.BooleanField(default=False, verbose_name='На Cкладе')
+
+    articles = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name='Арктикул')
     discount = models.PositiveSmallIntegerField(verbose_name='Скидка %', null=True, blank=True)
     warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
     brand = models.CharField(max_length=250, verbose_name='Бренд', null=True)
@@ -36,32 +39,20 @@ class Laptop(models.Model):
     cpu_cores = models.PositiveSmallIntegerField(verbose_name="Количество ядер")
     cpu_threads = models.PositiveSmallIntegerField(verbose_name="Количество потоков")
     cpu_frequency_mhz = models.PositiveIntegerField(verbose_name="Макс. частота процессора (МГц)")
-    cpu_cache_mb = models.PositiveSmallIntegerField(verbose_name="Кэш процессора (МБ)")
 
     # Видеокарта
     gpu_model = models.CharField(max_length=150, verbose_name="Модель видеокарты")
-    gpu_memory = models.CharField(max_length=150, verbose_name="Объем видеопамяти")
 
-    # Сети
-    wifi = models.CharField(max_length=150, verbose_name="Wi-Fi")
-    ethernet = models.BooleanField(default=False, verbose_name="Ethernet")
-    bluetooth = models.BooleanField(default=False, verbose_name="Bluetooth")
 
     # Порты
-    usb_type_a_count = models.PositiveSmallIntegerField(default=0, verbose_name="USB Type-C (шт)")
+    usb_type_a_count = models.BooleanField(verbose_name="USB Type-C (шт)")
     hdmi_count = models.BooleanField(default=False, verbose_name="HDMI")
     ethernet_port = models.BooleanField(default=False, verbose_name="Ethernet-порт")
     audio_jack = models.BooleanField(default=True, verbose_name="Аудиоразъём")
 
     # Дополнительно
     keyboard_backlight = models.BooleanField(default=False, verbose_name="Подсветка клавиатуры")
-    battery_type = models.CharField(max_length=150, verbose_name="Тип аккумулятора")
     battery_capacity_wh = models.FloatField(verbose_name="Емкость аккумулятора (Вт·ч)")
-
-    # Габариты
-    width_mm = models.FloatField(verbose_name="Ширина (мм)")
-    thickness_mm = models.FloatField(verbose_name="Толщина (мм)")
-    weight_kg = models.FloatField(verbose_name="Вес (кг)")
 
     class Meta:
         verbose_name = 'Ноутбук'
@@ -145,7 +136,6 @@ class Order(models.Model):
     link = models.URLField(null=True, blank=True)
     phone_number = models.CharField(max_length=50,null=True, blank=True, verbose_name='Тел. ном')
     full_name = models.CharField(max_length=150)
-    email = models.EmailField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
     class Meta:
@@ -153,13 +143,12 @@ class Order(models.Model):
         verbose_name_plural = 'Заказы'
 
     def __str__(self):
-        return f'{self.laptop}-{self.full_name}-{self.email}'
+        return f'{self.full_name}-{self.email}'
 
 
 class ServiceCallback(models.Model):
     phone_number = models.CharField(max_length=50, verbose_name='Тел. ном')
     full_name = models.CharField(max_length=150)
-    email = models.EmailField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
     class Meta:
@@ -173,7 +162,6 @@ class ServiceCallback(models.Model):
 class Callback(models.Model):
     phone_number = models.CharField(max_length=50, verbose_name='Тел. ном')
     full_name = models.CharField(max_length=150)
-    email = models.EmailField(null=True, blank=True)
     description = models.TextField(null=True, blank=True)
 
     class Meta:
@@ -191,6 +179,9 @@ class AboutUs(models.Model):
         verbose_name = 'О Нас'
         verbose_name_plural = 'О Нас'
 
+    def __str__(self):
+        return f'{self.description}'
+
 
 class Delivery(models.Model):
     description = CKEditor5Field(verbose_name='Описание', config_name='extends')
@@ -198,6 +189,9 @@ class Delivery(models.Model):
     class Meta:
         verbose_name = 'Доставка'
         verbose_name_plural = 'Доставка'
+
+    def __str__(self):
+        return f'{self.description}'
 
 
 class Warranty(models.Model):
@@ -207,6 +201,9 @@ class Warranty(models.Model):
         verbose_name = 'Гарантия'
         verbose_name_plural = 'Гарантия'
 
+    def __str__(self):
+        return f'{self.description}'
+
 
 class Service(models.Model):
     description = CKEditor5Field(verbose_name='Описание', config_name='extends')
@@ -214,6 +211,9 @@ class Service(models.Model):
     class Meta:
         verbose_name = 'Сервис и обслуживание'
         verbose_name_plural = 'Сервис и обслуживание'
+
+    def __str__(self):
+        return f'{self.description}'
 
 
 class Cart(models.Model):
@@ -235,12 +235,5 @@ class CartItem(models.Model):
     def get_total_price(self):
         return self.product.price * self.quantity
 
-
-class CartItemCallback(models.Model):
-    phone_number = models.CharField(max_length=50, verbose_name='Тел. ном')
-    full_name = models.CharField(max_length=150)
-    email = models.EmailField(null=True, blank=True)
-    description = models.TextField(null=True, blank=True)
-    product = models.ForeignKey(CartItem, on_delete=models.CASCADE, related_name='laptop')
 
 

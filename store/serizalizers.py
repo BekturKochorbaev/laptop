@@ -15,8 +15,8 @@ class LaptopListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Laptop
-        fields = ['id', 'name', 'discount', 'in_stock', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model', 'width_mm',
-                  'thickness_mm', 'operating_system', 'storage_size_gb', 'weight_kg', 'laptop_image', 'price']
+        fields = ['id', 'name', 'discount', 'in_stock', 'in_composition', 'articles', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model',
+                  'operating_system', 'storage_size_gb', 'laptop_image', 'price']
 
 
 class LaptopDetailSerializers(serializers.ModelSerializer):
@@ -63,7 +63,7 @@ class ContactSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Contact
-        fields = ['id', 'address', 'work_schedule', 'email', 'phone_number', 'whatsapp', 'telegram', 'instagram']
+        fields = ['id', 'address', 'work_schedule', 'phone_number', 'whatsapp', 'telegram', 'instagram']
 
 
 class AboutUsSerializers(serializers.ModelSerializer):
@@ -97,7 +97,7 @@ class ServiceSerializers(serializers.ModelSerializer):
 class OrderSerializers(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ['link', 'phone_number', 'full_name', 'email', 'description']
+        fields = ['link', 'phone_number', 'full_name', 'description']
 
     def create(self, validated_data):
         callback = Order.objects.create(**validated_data)
@@ -108,7 +108,7 @@ class OrderSerializers(serializers.ModelSerializer):
 class ServiceCallbackSerializers(serializers.ModelSerializer):
     class Meta:
         model = ServiceCallback
-        fields = ['phone_number', 'full_name', 'email', 'description']
+        fields = ['phone_number', 'full_name', 'description']
 
     def create(self, validated_data):
         callback = ServiceCallback.objects.create(**validated_data)
@@ -119,7 +119,7 @@ class ServiceCallbackSerializers(serializers.ModelSerializer):
 class CallbackSerializers(serializers.ModelSerializer):
     class Meta:
         model = Callback
-        fields = ['phone_number', 'full_name', 'email', 'description']
+        fields = ['phone_number', 'full_name', 'description']
 
     def create(self, validated_data):
         callback = Callback.objects.create(**validated_data)
@@ -140,7 +140,6 @@ class CartItemDetailSerializer(serializers.Serializer):
 class CallbackCreateSerializer(serializers.Serializer):
     phone_number = serializers.CharField(max_length=50)
     full_name = serializers.CharField(max_length=150)
-    email = serializers.EmailField(required=False, allow_blank=True)
     description = serializers.CharField(required=False, allow_blank=True)
     products = CartItemDetailSerializer(many=True)
 
