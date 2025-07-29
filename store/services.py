@@ -79,6 +79,7 @@ def cart_item_callback(data):
             f"    Арктикул: {product.articles}\n"
             f"    Цена: {product.price}\n"
             f"    Цена со скидкой: {product.get_discount_price()}\n"
+
         )
 
     product_text = "\n".join(product_lines)
@@ -88,6 +89,7 @@ def cart_item_callback(data):
         f"👤 Имя: {data['full_name']};\n"
         f"📝  Сообщение: {data.get('description', '')};\n"
         f"Ноутбук:\n{product_text}"
+        f"Итоговая сумма: {data['total_sum']}\n"
     )
 
     token = settings.TELEGRAM_BOT_TOKEN

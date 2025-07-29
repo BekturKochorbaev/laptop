@@ -145,6 +145,7 @@ class CallbackCreateSerializer(serializers.Serializer):
     phone_number = serializers.CharField(max_length=50)
     full_name = serializers.CharField(max_length=150)
     description = serializers.CharField(required=False, allow_blank=True)
+    total_sum = serializers.IntegerField(allow_null=True)
     products = CartItemDetailSerializer(many=True)
 
 
@@ -154,7 +155,7 @@ class CartItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CartItem
-        fields = ['id', 'product', 'product_id', 'quantity', 'get_total_price']
+        fields = ['id', 'product', 'product_id', 'quantity']
 
 
 class CartSerializer(serializers.ModelSerializer):
