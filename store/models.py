@@ -13,7 +13,7 @@ class Laptop(models.Model):
     in_composition = models.BooleanField(default=False, verbose_name='На Cкладе')
 
     articles = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name='Арктикул')
-    discount = models.PositiveSmallIntegerField(verbose_name='Скидка %', null=True, blank=True)
+    discount = models.PositiveSmallIntegerField(verbose_name='Скидка %', null=True, blank=True, default=0)
     warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
     brand = models.CharField(max_length=250, verbose_name='Бренд', null=True)
 
@@ -45,6 +45,7 @@ class Laptop(models.Model):
 
 
     # Порты
+    usb_type_a_count = models.BooleanField(verbose_name="USB Type-C (шт)")
     hdmi_count = models.BooleanField(default=False, verbose_name="HDMI")
     ethernet_port = models.BooleanField(default=False, verbose_name="Ethernet-порт")
     audio_jack = models.BooleanField(default=True, verbose_name="Аудиоразъём")
@@ -59,6 +60,10 @@ class Laptop(models.Model):
 
     def __str__(self):
         return f'{self.name}-{self.price}'
+
+    def get_discount_price(self):
+        dis = (self.discount * self.price) / 100
+        return self.price - dis
 
 
 class LaptopImage(models.Model):

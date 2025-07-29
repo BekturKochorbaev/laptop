@@ -78,6 +78,7 @@ def cart_item_callback(data):
             f"    Название ноутбука: {product.name}\n"
             f"    Арктикул: {product.articles}\n"
             f"    Цена: {product.price}\n"
+            f"    Цена со скидкой: {product.get_discount_price()}\n"
         )
 
     product_text = "\n".join(product_lines)

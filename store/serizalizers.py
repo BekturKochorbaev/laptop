@@ -12,11 +12,15 @@ class LaptopImageSerializers(serializers.ModelSerializer):
 
 class LaptopListSerializers(serializers.ModelSerializer):
     laptop_image = LaptopImageSerializers(read_only=True, many=True)
+    discount_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Laptop
-        fields = ['id', 'name', 'discount', 'in_stock', 'in_composition', 'articles', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model',
+        fields = ['id', 'name', 'discount', 'discount_price', 'in_stock', 'in_composition', 'articles', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model',
                   'operating_system', 'storage_size_gb', 'laptop_image', 'price']
+
+    def get_discount_price(self, obj):
+        return obj.get_discount_price()
 
 
 class LaptopDetailSerializers(serializers.ModelSerializer):
