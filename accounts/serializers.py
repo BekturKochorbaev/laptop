@@ -1,15 +1,13 @@
 from django_rest_passwordreset.models import ResetPasswordToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
-from phonenumber_field.serializerfields import PhoneNumberField
 from django.contrib.auth import authenticate
 from datetime import datetime
 from .models import UserProfile
 
 
-class UserSerializer(serializers.ModelSerializer): # Регистрация для обычных пользователей
+class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = ('username', 'email', 'password')
@@ -18,7 +16,7 @@ class UserSerializer(serializers.ModelSerializer): # Регистрация дл
     def create(self, validated_data):
         password = validated_data.pop('password')
         user = UserProfile(**validated_data)
-        user.set_password(password)  # <-- хеширует пароль
+        user.set_password(password)
         user.save()
         return user
 
@@ -98,7 +96,8 @@ class VerifyResetCodeSerializer(serializers.Serializer):
         user.set_password(new_password)
         user.save()
 
+
 class UserGetSerializers(serializers.ModelSerializer):
     class Meta:
-        model  = UserProfile
+        model = UserProfile
         fields = '__all__'

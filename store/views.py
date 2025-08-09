@@ -4,7 +4,6 @@ from rest_framework import status
 from rest_framework.views import APIView
 
 from .filters import LaptopFilter
-from .models import Contact, AboutUs, Warranty
 from .serizalizers import *
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
@@ -38,6 +37,7 @@ class LaptopListApiView(ListAPIView):
 class LaptopDetailApiView(RetrieveAPIView):
     queryset = Laptop.objects.all()
     serializer_class = LaptopDetailSerializers
+    lookup_field = "id"
 
 
 class ContactListApiView(ListAPIView):
@@ -108,6 +108,7 @@ class CartViewSet(viewsets.ModelViewSet):
 
 class CartItemViewSet(viewsets.ModelViewSet):
     serializer_class = CartItemSerializer
+    lookup_field = "id"
 
     def get_queryset(self):
         return CartItem.objects.filter(cart__user=self.request.user)

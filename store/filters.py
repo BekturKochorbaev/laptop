@@ -1,20 +1,5 @@
 import django_filters
-from django_filters import rest_framework as filters
 from .models import *
-
-
-# class LaptopFilter(filters.FilterSet):
-#
-#     class Meta:
-#         model = Laptop
-#         fields = {'name': ['icontains'],
-#                   'screen_size': ['exact'],
-#                   'cpu_model': ['icontains'],
-#                   'ram_size_gb': ['exact'],
-#                   'gpu_model': ['icontains'],
-#                   'storage_size_gb': ['exact'],
-#                   'operation_system': ['icontains'],
-#         }
 
 
 class LaptopFilter(django_filters.FilterSet):

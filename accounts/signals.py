@@ -6,6 +6,7 @@ from .models import UserProfile
 from django.db.models.signals import post_save
 from django.urls import reverse
 
+
 @receiver(reset_password_token_created)
 def password_reset_token_created(sender, instance, reset_password_token, *args, **kwargs):
     # Генерация случайного 4-значного кода

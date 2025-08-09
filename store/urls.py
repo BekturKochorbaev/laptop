@@ -6,7 +6,7 @@ from store.views import LaptopListApiView, LaptopDetailApiView, ContactListApiVi
 
 urlpatterns = [
     path('laptop/', LaptopListApiView.as_view()),
-    path('laptop/<int:pk>/', LaptopDetailApiView.as_view()),
+    path('laptop/<str:id>/', LaptopDetailApiView.as_view()),
     path('contact/', ContactListApiView.as_view()),
     path('aboutus/', AboutUsListApiView.as_view()),
     path('delivery/', DeliveryListApiView.as_view()),
@@ -20,6 +20,6 @@ urlpatterns = [
     path('cart/', CartViewSet.as_view({'get': 'retrieve'}), name='cart_detail'),
 
     path('cart_items/', CartItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='car-item_list'),
-    path('cart_items/<int:pk>/', CartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
+    path('cart_items/<str:id>/', CartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
 ]
 

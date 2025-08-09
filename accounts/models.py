@@ -2,6 +2,7 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.contrib.auth.models import AbstractUser, UserManager
 
+
 class CustomUserManager(UserManager):
     def create_user(self, email, password=None, **extra_fields):
         """
@@ -30,6 +31,7 @@ class CustomUserManager(UserManager):
             raise ValueError('Superuser must have is_superuser=True.')
 
         return self.create_user(email, password, **extra_fields)
+
 
 class UserProfile(AbstractUser):
     username = models.CharField(max_length=150, unique=True, null=True, blank=True)

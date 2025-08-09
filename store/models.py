@@ -2,9 +2,12 @@ from django.db import models
 from accounts.models import UserProfile
 from phonenumber_field.modelfields import PhoneNumberField
 from django_ckeditor_5.fields import CKEditor5Field
+import uuid
+from django.db import models
 
 
 class Laptop(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     name = models.CharField(max_length=500, verbose_name="Название")
     description = models.TextField(verbose_name='Описание')
     link = models.URLField(verbose_name='Ссылка на ноутбук', null=True, blank=True)
@@ -53,6 +56,8 @@ class Laptop(models.Model):
     # Дополнительно
     keyboard_backlight = models.BooleanField(default=False, verbose_name="Подсветка клавиатуры")
     battery_capacity_wh = models.FloatField(verbose_name="Емкость аккумулятора (Вт·ч)")
+
+    keys = models.TextField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Ноутбук'
@@ -232,6 +237,7 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Laptop, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=1)
