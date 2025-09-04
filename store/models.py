@@ -5,6 +5,12 @@ from django_ckeditor_5.fields import CKEditor5Field
 import uuid
 from django.db import models
 
+KEYS = ("купить ноутбук, ноутбуки Бишкек, дешевые ноутбуки, недорогие ноутбуки, ноутбуки в наличии,"
+        "магазин ноутбуков Бишкек, цены на ноутбуки, ноутбуки с доставкой, игровые ноутбуки Бишкек,"
+        "офисные ноутбуки, ноутбуки для учебы, ноутбуки для работы, ноутбуки в кредит Бишкек,"
+        "ноутбуки со скидкой, лучшие ноутбуки 2025, ноутбуки с гарантией, ноутбуки распродажа,"
+        "ноутбуки акции, ноутбуки для студентов, ноутбуки для программистов")
+
 
 class Laptop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
@@ -57,7 +63,8 @@ class Laptop(models.Model):
     keyboard_backlight = models.BooleanField(default=False, verbose_name="Подсветка клавиатуры")
     battery_capacity_wh = models.FloatField(verbose_name="Емкость аккумулятора (Вт·ч)")
 
-    keys = models.TextField(null=True, blank=True)
+    keys = models.TextField(null=True, blank=True, default=KEYS
+                            )
 
     class Meta:
         verbose_name = 'Ноутбук'

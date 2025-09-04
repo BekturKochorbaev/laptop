@@ -177,6 +177,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://technohub.kg",
     "https://api.technohub.kg",
 ]
+
 TELEGRAM_BOT_TOKEN = "7944653203:AAFaTgmt7WFZVOS3ut8f7n4fN5R-mPAK7Zc"
 TELEGRAM_CHAT_ID = -4888886128
 
