@@ -175,7 +175,7 @@ CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
 CSRF_TRUSTED_ORIGINS = [
     "https://technohub.kg",
-    "https://api.technohub.kg",
+    "https://api.technohub.com.kg",
 ]
 
 TELEGRAM_BOT_TOKEN = "7944653203:AAFaTgmt7WFZVOS3ut8f7n4fN5R-mPAK7Zc"
