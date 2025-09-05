@@ -170,11 +170,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3001",
     "http://localhost:3002",
     "http://localhost:3003",
+    "https://technohub.kg",
+    "https://www.technohub.kg",
+    "https://api.technohub.com.kg",
 ]
 CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS']
 
 CSRF_TRUSTED_ORIGINS = [
     "https://technohub.kg",
+    "https://www.technohub.kg",
     "https://api.technohub.com.kg",
 ]
 
