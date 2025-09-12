@@ -4,6 +4,8 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django_ckeditor_5.fields import CKEditor5Field
 import uuid
 from django.db import models
+from django.utils.text import slugify
+from unidecode import unidecode
 
 KEYS = ("купить ноутбук, ноутбуки Бишкек, дешевые ноутбуки, недорогие ноутбуки, ноутбуки в наличии,"
         "магазин ноутбуков Бишкек, цены на ноутбуки, ноутбуки с доставкой, игровые ноутбуки Бишкек,"
@@ -14,6 +16,7 @@ KEYS = ("купить ноутбук, ноутбуки Бишкек, дешев�
 
 class Laptop(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
+    slug = models.SlugField(unique=True, blank=True)
     name = models.CharField(max_length=500, verbose_name="Название")
     description = models.TextField(verbose_name='Описание')
     link = models.URLField(verbose_name='Ссылка на ноутбук', null=True, blank=True)
@@ -76,6 +79,20 @@ class Laptop(models.Model):
     def get_discount_price(self):
         dis = (self.discount * self.price) / 100
         return self.price - dis
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(unidecode(self.name))
+            slug = base_slug
+            counter = 1
+
+            while Laptop.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base_slug}-{counter}'
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
 
 
 class LaptopImage(models.Model):

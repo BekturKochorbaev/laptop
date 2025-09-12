@@ -37,7 +37,7 @@ class LaptopListApiView(ListAPIView):
 class LaptopDetailApiView(RetrieveAPIView):
     queryset = Laptop.objects.all()
     serializer_class = LaptopDetailSerializers
-    lookup_field = "id"
+    lookup_field = "slug"
 
 
 class ContactListApiView(ListAPIView):

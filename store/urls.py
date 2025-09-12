@@ -6,7 +6,7 @@ from store.views import LaptopListApiView, LaptopDetailApiView, ContactListApiVi
 
 urlpatterns = [
     path('laptop/', LaptopListApiView.as_view()),
-    path('laptop/<str:id>/', LaptopDetailApiView.as_view()),
+    path('laptop/<str:slug>/', LaptopDetailApiView.as_view()),
     path('contact/', ContactListApiView.as_view()),
     path('aboutus/', AboutUsListApiView.as_view()),
     path('delivery/', DeliveryListApiView.as_view()),
