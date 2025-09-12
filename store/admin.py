@@ -11,6 +11,7 @@ class LaptopImageInline(admin.TabularInline):
 class LaptopAdmin(admin.ModelAdmin):
     inlines = [LaptopImageInline]
     list_display = ['name', 'ram_size_gb', 'cpu_model', 'price']
+    exclude = ('slug',)
 
 
 admin.site.register(Laptop, LaptopAdmin)
