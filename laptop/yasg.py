@@ -15,7 +15,7 @@ schema_view = get_schema_view(
    ),
    public=True,
    permission_classes=(permissions.AllowAny,),
-   url="https://api.technohub.kg"
+   url="https://api.technohub.com.kg"
 )
 
 urlpatterns = [
