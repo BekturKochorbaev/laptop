@@ -213,7 +213,7 @@ class AboutUs(models.Model):
         verbose_name_plural = 'О Нас'
 
     def __str__(self):
-        return f'{self.description}'
+        return (self.description[:100] + '...') if len(self.description) > 50 else self.description
 
 
 class Delivery(models.Model):
@@ -224,7 +224,7 @@ class Delivery(models.Model):
         verbose_name_plural = 'Доставка'
 
     def __str__(self):
-        return f'{self.description}'
+        return (self.description[:100] + '...') if len(self.description) > 50 else self.description
 
 
 class Warranty(models.Model):
@@ -235,7 +235,7 @@ class Warranty(models.Model):
         verbose_name_plural = 'Гарантия'
 
     def __str__(self):
-        return f'{self.description}'
+        return (self.description[:100] + '...') if len(self.description) > 50 else self.description
 
 
 class Service(models.Model):
@@ -246,7 +246,7 @@ class Service(models.Model):
         verbose_name_plural = 'Сервис и обслуживание'
 
     def __str__(self):
-        return f'{self.description}'
+        return (self.description[:100] + '...') if len(self.description) > 50 else self.description
 
 
 class Cart(models.Model):
