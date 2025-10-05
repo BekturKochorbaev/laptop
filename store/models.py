@@ -176,7 +176,7 @@ class Order(models.Model):
         verbose_name_plural = 'Заказы'
 
     def __str__(self):
-        return f'{self.full_name}-{self.email}'
+        return f'{self.full_name}'
 
 
 class ServiceCallback(models.Model):
@@ -189,7 +189,7 @@ class ServiceCallback(models.Model):
         verbose_name_plural = 'Заявка на сервис'
 
     def __str__(self):
-        return f'{self.phone_number}-{self.full_name}-{self.email}'
+        return f'{self.phone_number}-{self.full_name}'
 
 
 class Callback(models.Model):
