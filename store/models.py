@@ -30,9 +30,6 @@ class Laptop(models.Model):
     brand = models.CharField(max_length=250, verbose_name='Бренд', null=True)
 
     screen_size = models.FloatField(verbose_name="Размер экрана (дюймы)")
-    screen_type = models.CharField(max_length=150, verbose_name="Тип экрана")
-    resolution = models.CharField(max_length=150, verbose_name="Разрешение экрана")
-    refresh_rate = models.PositiveSmallIntegerField(default=60, verbose_name="Частота обновления (Гц)")
     operating_system = models.CharField(max_length=150, choices=[
                                                                 ('Windows 10', 'Windows 10'),
                                                                 ('Windows 11', 'Windows 11'),
@@ -44,27 +41,8 @@ class Laptop(models.Model):
     # Память
     ram_size_gb = models.PositiveSmallIntegerField(verbose_name="Оперативная память (ГБ)")
     storage_size_gb = models.PositiveSmallIntegerField(verbose_name="Объем SSD (ГБ)")
-    storage_type = models.CharField(max_length=150, default="SSD NVMe", verbose_name="Тип накопителя")
-
-    # Процессор
     cpu_model = models.CharField(max_length=150, verbose_name="Модель процессора")
-    cpu_cores = models.PositiveSmallIntegerField(verbose_name="Количество ядер")
-    cpu_threads = models.PositiveSmallIntegerField(verbose_name="Количество потоков")
-    cpu_frequency_mhz = models.PositiveIntegerField(verbose_name="Макс. частота процессора (МГц)")
-
-    # Видеокарта
     gpu_model = models.CharField(max_length=150, verbose_name="Модель видеокарты")
-
-
-    # Порты
-    usb_type_a_count = models.BooleanField(verbose_name="USB Type-C (шт)", null=True)
-    hdmi_count = models.BooleanField(default=False, verbose_name="HDMI")
-    ethernet_port = models.BooleanField(default=False, verbose_name="Ethernet-порт")
-    audio_jack = models.BooleanField(default=True, verbose_name="Аудиоразъём")
-
-    # Дополнительно
-    keyboard_backlight = models.BooleanField(default=False, verbose_name="Подсветка клавиатуры")
-    battery_capacity_wh = models.FloatField(verbose_name="Емкость аккумулятора (Вт·ч)")
 
     keys = models.TextField(null=True, blank=True, default=KEYS
                             )
