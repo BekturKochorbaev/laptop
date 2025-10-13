@@ -26,7 +26,7 @@ class Laptop(models.Model):
     in_stock = models.BooleanField(default=False, verbose_name='В Наличии')
     in_composition = models.BooleanField(default=False, verbose_name='На Cкладе')
 
-    articles = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name='Арктикул')
+    articles = models.IntegerField(null=True, blank=True, verbose_name='Арктикул')
     discount = models.PositiveSmallIntegerField(verbose_name='Скидка %', null=True, blank=True, default=0)
     warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
     brand = models.CharField(max_length=250, verbose_name='Бренд', null=True)
