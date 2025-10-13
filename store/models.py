@@ -1,3 +1,5 @@
+import random
+
 from django.db import models
 from accounts.models import UserProfile
 from phonenumber_field.modelfields import PhoneNumberField
@@ -38,14 +40,15 @@ class Laptop(models.Model):
                                                                  ],
                                         blank=True, null=True, verbose_name="Операционная система")
 
-    # Память
     ram_size_gb = models.PositiveSmallIntegerField(verbose_name="Оперативная память (ГБ)")
     storage_size_gb = models.PositiveSmallIntegerField(verbose_name="Объем SSD (ГБ)")
     cpu_model = models.CharField(max_length=150, verbose_name="Модель процессора")
     gpu_model = models.CharField(max_length=150, verbose_name="Модель видеокарты")
+    cpu_cores = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Количество ядер")
+    cpu_threads = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Количество потоков")
+    keyboard_backlight = models.BooleanField(default=False, null=True, blank=True, verbose_name="Подсветка клавиатуры")
 
-    keys = models.TextField(null=True, blank=True, default=KEYS
-                            )
+    keys = models.TextField(null=True, blank=True, default=KEYS)
 
     class Meta:
         verbose_name = 'Ноутбук'
@@ -59,6 +62,9 @@ class Laptop(models.Model):
         return self.price - dis
 
     def save(self, *args, **kwargs):
+        if not self.articles:
+            self.articles = random.randint(10000, 99999)
+
         if not self.slug:
             base_slug = slugify(unidecode(self.name))
             slug = base_slug
