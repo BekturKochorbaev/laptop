@@ -1,5 +1,5 @@
 import django_filters
-from .models import *
+from .models import Laptop, Printer
 
 
 class LaptopFilter(django_filters.FilterSet):
@@ -14,3 +14,11 @@ class LaptopFilter(django_filters.FilterSet):
     class Meta:
         model = Laptop
         fields = ['name', 'screen_size', 'cpu_model', 'ram_size_gb', 'gpu_model', 'storage_size_gb', 'operation_system']
+
+
+class PrinterListFilter(django_filters.FilterSet):
+    class Meta:
+        model = Printer
+        fields = {'price': ['gt', 'lt'],
+                  'created_date': ['gt', 'lt']
+        }

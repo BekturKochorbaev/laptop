@@ -1,6 +1,5 @@
 import random
 
-from django.db import models
 from accounts.models import UserProfile
 from phonenumber_field.modelfields import PhoneNumberField
 from django_ckeditor_5.fields import CKEditor5Field
@@ -17,7 +16,6 @@ KEYS = ("купить ноутбук, ноутбуки Бишкек, дешев�
 
 
 class Laptop(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
     slug = models.SlugField(unique=True, blank=True)
     name = models.CharField(max_length=500, verbose_name="Название")
     description = models.TextField(verbose_name='Описание')
@@ -40,13 +38,14 @@ class Laptop(models.Model):
                                                                  ],
                                         blank=True, null=True, verbose_name="Операционная система")
 
-    ram_size_gb = models.PositiveSmallIntegerField(verbose_name="Оперативная память (ГБ)")
-    storage_size_gb = models.PositiveSmallIntegerField(verbose_name="Объем SSD (ГБ)")
-    cpu_model = models.CharField(max_length=150, verbose_name="Модель процессора")
-    gpu_model = models.CharField(max_length=150, verbose_name="Модель видеокарты")
+    ram_size_gb = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Оперативная память (ГБ)")
+    storage_size_gb = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Объем SSD (ГБ)")
+    cpu_model = models.CharField(null=True, blank=True, max_length=150, verbose_name="Модель процессора")
+    gpu_model = models.CharField(null=True, blank=True, max_length=150, verbose_name="Модель видеокарты")
     cpu_cores = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Количество ядер")
     cpu_threads = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Количество потоков")
     keyboard_backlight = models.BooleanField(default=False, null=True, blank=True, verbose_name="Подсветка клавиатуры")
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     keys = models.TextField(null=True, blank=True, default=KEYS)
 
@@ -81,7 +80,46 @@ class Laptop(models.Model):
 
 class LaptopImage(models.Model):
     laptop = models.ForeignKey(Laptop, on_delete=models.CASCADE, related_name='laptop_image')
-    image = models.FileField(upload_to='laptop_images', null=True, blank=True)
+    image = models.FileField(upload_to='laptop_images/', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Изображение'
+        verbose_name_plural = 'Изображение'
+
+
+class Printer(models.Model):
+    slug = models.SlugField(unique=True, blank=True)
+    name = models.CharField(max_length=500, verbose_name="Название")
+    description = models.TextField(verbose_name='Описание')
+    price = models.IntegerField(verbose_name="Цена")
+    created_date = models.DateTimeField(auto_now_add=True, editable=False)
+    keys = models.TextField(null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Принтер'
+        verbose_name_plural = 'Принтер'
+
+    def __str__(self):
+        return f'{self.name}-{self.price}'
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            base_slug = slugify(unidecode(self.name))
+            slug = base_slug
+            counter = 1
+
+            while Printer.objects.filter(slug=slug).exclude(pk=self.pk).exists():
+                slug = f'{base_slug}-{counter}'
+                counter += 1
+
+            self.slug = slug
+
+        super().save(*args, **kwargs)
+
+
+class PrinterImage(models.Model):
+    printer = models.ForeignKey(Printer, on_delete=models.CASCADE, related_name='printer_image')
+    image = models.FileField(upload_to='printer_images/', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Изображение'

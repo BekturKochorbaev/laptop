@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import LaptopImage, Laptop, ContactNumber, Contact, AboutUs, Warranty, Delivery, Order, ServiceCallback, \
-    ContactWhatsApp, ContactTelegram, ContactInstagram, Service
+    ContactWhatsApp, ContactTelegram, ContactInstagram, Service, PrinterImage, Printer
 
 
 class LaptopImageInline(admin.TabularInline):
@@ -16,6 +16,20 @@ class LaptopAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Laptop, LaptopAdmin)
+
+
+class PrinterImageInline(admin.TabularInline):
+    model = PrinterImage
+    extra = 1
+
+
+class PrinterAdmin(admin.ModelAdmin):
+    inlines = [PrinterImageInline]
+    list_display = ['name', 'price']
+    exclude = ('slug',)
+
+
+admin.site.register(Printer, PrinterAdmin)
 
 
 class ContactNumberInline(admin.TabularInline):

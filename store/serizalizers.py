@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty, \
-    Delivery, Service, ServiceCallback, ContactWhatsApp, ContactTelegram, ContactInstagram, Callback
+    Delivery, Service, ServiceCallback, ContactWhatsApp, ContactTelegram, ContactInstagram, Callback, Printer, \
+    PrinterImage
 from .services import send_to_telegram, send_to_telegram_service, send_to_telegram_callback
 
 
@@ -17,7 +18,7 @@ class LaptopListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Laptop
         fields = ['id', 'slug', 'name', 'discount', 'discount_price', 'in_stock', 'in_composition', 'articles', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model',
-                  'operating_system', 'storage_size_gb', 'laptop_image', 'price']
+                  'operating_system', 'storage_size_gb', 'laptop_image', 'price', 'created_date']
 
     def get_discount_price(self, obj):
         return obj.get_discount_price()
@@ -28,6 +29,28 @@ class LaptopDetailSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Laptop
+        fields = '__all__'
+
+
+class PrinterImageSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = PrinterImage
+        fields = ['id', 'image']
+
+
+class PrinterListSerializers(serializers.ModelSerializer):
+    printer_image = PrinterImageSerializers(read_only=True, many=True)
+
+    class Meta:
+        model = Printer
+        fields = ['id', 'slug', 'name', 'description', 'price', 'printer_image', 'created_date']
+
+
+class PrinterDetailSerializers(serializers.ModelSerializer):
+    printer_image = PrinterImageSerializers(read_only=True, many=True)
+
+    class Meta:
+        model = Printer
         fields = '__all__'
 
 

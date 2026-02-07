@@ -1,10 +1,14 @@
 from rest_framework.response import Response
-from rest_framework import viewsets
-from rest_framework import status
+from rest_framework import viewsets, status, filters
 from rest_framework.views import APIView
 
-from .filters import LaptopFilter
-from .serizalizers import *
+from .filters import LaptopFilter, PrinterListFilter
+from .models import Laptop, Contact, AboutUs, Delivery, Warranty, Service, Order, ServiceCallback, Callback, Cart, \
+    CartItem, Printer
+from .serizalizers import LaptopListSerializers, LaptopDetailSerializers, ContactSerializers, AboutUsSerializers, \
+    DeliverySerializers, WarrantySerializers, ServiceSerializers, OrderSerializers, ServiceCallbackSerializers, \
+    CallbackSerializers, CallbackCreateSerializer, CartSerializer, CartItemSerializer, PrinterListSerializers, \
+    PrinterDetailSerializers
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
@@ -16,7 +20,8 @@ from .services import cart_item_callback
 class LaptopListApiView(ListAPIView):
     queryset = Laptop.objects.all()
     serializer_class = LaptopListSerializers
-    filter_backends = [DjangoFilterBackend]
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+    ordering_fields = ['created_date']
     filterset_class = LaptopFilter
 
     @swagger_auto_schema(
@@ -37,6 +42,20 @@ class LaptopListApiView(ListAPIView):
 class LaptopDetailApiView(RetrieveAPIView):
     queryset = Laptop.objects.all()
     serializer_class = LaptopDetailSerializers
+    lookup_field = "slug"
+
+
+class PrinterListApiView(ListAPIView):
+    queryset = Printer.objects.all()
+    serializer_class = PrinterListSerializers
+    ordering_fields = ['created_date']
+    filterset_class = PrinterListFilter
+    filter_backends = [DjangoFilterBackend, filters.OrderingFilter]
+
+
+class PrinterDetailApiView(RetrieveAPIView):
+    queryset = Printer.objects.all()
+    serializer_class = PrinterDetailSerializers
     lookup_field = "slug"
 
 

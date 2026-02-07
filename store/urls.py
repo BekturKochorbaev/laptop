@@ -1,12 +1,13 @@
-from django.urls import path, include
-
+from django.urls import path
 from store.views import LaptopListApiView, LaptopDetailApiView, ContactListApiView, AboutUsListApiView, \
     WarrantyListApiView, OrderCreateApiView, CartViewSet, CartItemViewSet, DeliveryListApiView, ServiceListApiView, \
-    ServiceCallbackCreateApiView, CallbackCreateApiView, CartCallbackView
+    ServiceCallbackCreateApiView, CallbackCreateApiView, CartCallbackView, PrinterListApiView, PrinterDetailApiView
 
 urlpatterns = [
     path('laptop/', LaptopListApiView.as_view()),
     path('laptop/<str:slug>/', LaptopDetailApiView.as_view()),
+    path('printer/', PrinterListApiView.as_view()),
+    path('printer/<str:slug>/', PrinterDetailApiView.as_view()),
     path('contact/', ContactListApiView.as_view()),
     path('aboutus/', AboutUsListApiView.as_view()),
     path('delivery/', DeliveryListApiView.as_view()),

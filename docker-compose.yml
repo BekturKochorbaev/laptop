@@ -20,7 +20,8 @@ services:
       - db
     volumes:
       - ./:/app
-      - ./static:/app/static
+      - ./static:/core/staticfiles/
+      - ./media:/core/media/
     restart: always
 
 
@@ -45,6 +46,8 @@ services:
       - ./nginx/ssl.conf:/config/nginx/site-confs/ssl/ssl.conf
       - ./nginx/nginx.conf:/config/nginx/site-confs/default.conf
       - lets:/config/etc/letsencrypt/
+      - ./static:/core/staticfiles/
+      - ./media:/core/media/
     restart: always
 
 volumes:
