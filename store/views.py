@@ -127,7 +127,7 @@ class CartViewSet(viewsets.ModelViewSet):
 
 class LaptopCartItemViewSet(viewsets.ModelViewSet):
     serializer_class = LaptopCartItemSerializer
-    lookup_field = "slug"
+    lookup_field = "id"
 
     def get_queryset(self):
         return LaptopCartItem.objects.filter(cart__user=self.request.user)
@@ -139,7 +139,7 @@ class LaptopCartItemViewSet(viewsets.ModelViewSet):
 
 class PrinterCartItemViewSet(viewsets.ModelViewSet):
     serializer_class = PrinterCartItemSerializer
-    lookup_field = "slug"
+    lookup_field = "id"
 
     def get_queryset(self):
         return PrinterCartItem.objects.filter(cart__user=self.request.user)

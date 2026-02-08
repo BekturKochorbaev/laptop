@@ -22,9 +22,9 @@ urlpatterns = [
     path('cart/', CartViewSet.as_view({'get': 'retrieve'}), name='cart_detail'),
 
     path('laptop_cart_items/', LaptopCartItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='car-item_list'),
-    path('laptop_cart_items/<str:slug>/', LaptopCartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
+    path('laptop_cart_items/<int:id>/', LaptopCartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
     path('printer_cart_items/', PrinterCartItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='car-item_list'),
-    path('printer_cart_items/<str:slug>/', PrinterCartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
+    path('printer_cart_items/<int:id>/', PrinterCartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
 
 ]
 
