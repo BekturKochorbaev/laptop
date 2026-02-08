@@ -4,11 +4,11 @@ from rest_framework.views import APIView
 
 from .filters import LaptopFilter, PrinterListFilter
 from .models import Laptop, Contact, AboutUs, Delivery, Warranty, Service, Order, ServiceCallback, Callback, Cart, \
-    CartItem, Printer
+    Printer, LaptopCartItem, PrinterCartItem
 from .serizalizers import LaptopListSerializers, LaptopDetailSerializers, ContactSerializers, AboutUsSerializers, \
     DeliverySerializers, WarrantySerializers, ServiceSerializers, OrderSerializers, ServiceCallbackSerializers, \
-    CallbackSerializers, CallbackCreateSerializer, CartSerializer, CartItemSerializer, PrinterListSerializers, \
-    PrinterDetailSerializers
+    CallbackSerializers, CallbackCreateSerializer, CartSerializer, PrinterListSerializers, \
+    PrinterDetailSerializers, LaptopCartItemSerializer, PrinterCartItemSerializer
 from rest_framework.generics import ListAPIView, RetrieveAPIView, CreateAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
@@ -125,18 +125,28 @@ class CartViewSet(viewsets.ModelViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 
-class CartItemViewSet(viewsets.ModelViewSet):
-    serializer_class = CartItemSerializer
-    lookup_field = "id"
+class LaptopCartItemViewSet(viewsets.ModelViewSet):
+    serializer_class = LaptopCartItemSerializer
+    lookup_field = "slug"
 
     def get_queryset(self):
-        return CartItem.objects.filter(cart__user=self.request.user)
+        return LaptopCartItem.objects.filter(cart__user=self.request.user)
 
     def perform_create(self, serializer):
         cart, created = Cart.objects.get_or_create(user=self.request.user)
         serializer.save(cart=cart)
 
 
+class PrinterCartItemViewSet(viewsets.ModelViewSet):
+    serializer_class = PrinterCartItemSerializer
+    lookup_field = "slug"
+
+    def get_queryset(self):
+        return PrinterCartItem.objects.filter(cart__user=self.request.user)
+
+    def perform_create(self, serializer):
+        cart, created = Cart.objects.get_or_create(user=self.request.user)
+        serializer.save(cart=cart)
 
 
 

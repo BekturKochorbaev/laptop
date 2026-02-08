@@ -279,12 +279,13 @@ class Cart(models.Model):
         return f'{self.user}'
 
     def get_total_price(self):
-        return sum(item.get_total_price() for item in self.items.all())
+        laptop_total = sum(item.get_total_price() for item in self.laptop_items.all())
+        printer_total = sum(item.get_total_price() for item in self.printer_items.all())
+        return laptop_total + printer_total
 
 
-class CartItem(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, unique=True)
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
+class LaptopCartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='laptop_items')
     product = models.ForeignKey(Laptop, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField(default=1)
 
@@ -292,4 +293,11 @@ class CartItem(models.Model):
         return self.product.price * self.quantity
 
 
+class PrinterCartItem(models.Model):
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='printer_items')
+    printer = models.ForeignKey(Printer, on_delete=models.CASCADE)
+    quantity = models.PositiveSmallIntegerField(default=1)
+
+    def get_total_price(self):
+        return self.printer.price * self.quantity
 

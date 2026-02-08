@@ -1,7 +1,7 @@
 from rest_framework import serializers
-from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, CartItem, Cart, AboutUs, Warranty, \
+from store.models import Laptop, LaptopImage, Contact, ContactNumber, Order, Cart, AboutUs, Warranty, \
     Delivery, Service, ServiceCallback, ContactWhatsApp, ContactTelegram, ContactInstagram, Callback, Printer, \
-    PrinterImage
+    PrinterImage, LaptopCartItem, PrinterCartItem
 from .services import send_to_telegram, send_to_telegram_service, send_to_telegram_callback
 
 
@@ -172,22 +172,32 @@ class CallbackCreateSerializer(serializers.Serializer):
     products = CartItemDetailSerializer(many=True)
 
 
-class CartItemSerializer(serializers.ModelSerializer):
+class LaptopCartItemSerializer(serializers.ModelSerializer):
     product = LaptopListSerializers(read_only=True)
     product_id = serializers.PrimaryKeyRelatedField(queryset=Laptop.objects.all(), write_only=True, source='product')
 
     class Meta:
-        model = CartItem
+        model = LaptopCartItem
         fields = ['id', 'product', 'product_id', 'quantity']
 
 
+class PrinterCartItemSerializer(serializers.ModelSerializer):
+    printer = PrinterListSerializers(read_only=True)
+    printer_id = serializers.PrimaryKeyRelatedField(queryset=Printer.objects.all(), write_only=True, source='printer')
+
+    class Meta:
+        model = PrinterCartItem
+        fields = ['id', 'printer', 'printer_id', 'quantity']
+
+
 class CartSerializer(serializers.ModelSerializer):
-    items = CartItemSerializer(many=True, read_only=True)
+    laptop_items = LaptopCartItemSerializer(many=True, read_only=True)
+    printer_items = PrinterCartItemSerializer(many=True, read_only=True)
     total_price = serializers.SerializerMethodField()
 
     class Meta:
         model = Cart
-        fields = ['id', 'user', 'items', 'total_price']
+        fields = ['id', 'user', 'laptop_items',  'printer_items', 'total_price']
 
     def get_total_price(self, obj):
         return obj.get_total_price()

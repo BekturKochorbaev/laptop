@@ -1,7 +1,8 @@
 from django.urls import path
 from store.views import LaptopListApiView, LaptopDetailApiView, ContactListApiView, AboutUsListApiView, \
-    WarrantyListApiView, OrderCreateApiView, CartViewSet, CartItemViewSet, DeliveryListApiView, ServiceListApiView, \
-    ServiceCallbackCreateApiView, CallbackCreateApiView, CartCallbackView, PrinterListApiView, PrinterDetailApiView
+    WarrantyListApiView, OrderCreateApiView, CartViewSet, DeliveryListApiView, ServiceListApiView, \
+    ServiceCallbackCreateApiView, CallbackCreateApiView, CartCallbackView, PrinterListApiView, PrinterDetailApiView, \
+    LaptopCartItemViewSet, PrinterCartItemViewSet
 
 urlpatterns = [
     path('laptop/', LaptopListApiView.as_view()),
@@ -20,7 +21,10 @@ urlpatterns = [
 
     path('cart/', CartViewSet.as_view({'get': 'retrieve'}), name='cart_detail'),
 
-    path('cart_items/', CartItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='car-item_list'),
-    path('cart_items/<str:id>/', CartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
+    path('laptop_cart_items/', LaptopCartItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='car-item_list'),
+    path('laptop_cart_items/<str:slug>/', LaptopCartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
+    path('printer_cart_items/', PrinterCartItemViewSet.as_view({'get': 'list', 'post': 'create'}), name='car-item_list'),
+    path('printer_cart_items/<str:slug>/', PrinterCartItemViewSet.as_view({'put': 'update', 'delete': 'destroy'})),
+
 ]
 
