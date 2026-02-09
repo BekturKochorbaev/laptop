@@ -8,11 +8,8 @@ from django.db import models
 from django.utils.text import slugify
 from unidecode import unidecode
 
-KEYS = ("купить ноутбук, ноутбуки Бишкек, дешевые ноутбуки, недорогие ноутбуки, ноутбуки в наличии,"
-        "магазин ноутбуков Бишкек, цены на ноутбуки, ноутбуки с доставкой, игровые ноутбуки Бишкек,"
-        "офисные ноутбуки, ноутбуки для учебы, ноутбуки для работы, ноутбуки в кредит Бишкек,"
-        "ноутбуки со скидкой, лучшие ноутбуки 2025, ноутбуки с гарантией, ноутбуки распродажа,"
-        "ноутбуки акции, ноутбуки для студентов, ноутбуки для программистов")
+from .choices import SCREEN_SIZE_CHOICES, RAM_CHOICES, STORAGE_CHOICES
+from .keys import LAPTOP_KEYS, PRINTER_KEYS
 
 
 class Laptop(models.Model):
@@ -26,10 +23,10 @@ class Laptop(models.Model):
 
     articles = models.IntegerField(null=True, blank=True, verbose_name='Арктикул')
     discount = models.PositiveSmallIntegerField(verbose_name='Скидка %', null=True, blank=True, default=0)
-    warranty = models.PositiveSmallIntegerField(default=3, verbose_name='Гарантия')
+    warranty = models.PositiveSmallIntegerField(default=9, verbose_name='Гарантия')
     brand = models.CharField(max_length=250, verbose_name='Бренд', null=True)
 
-    screen_size = models.FloatField(verbose_name="Размер экрана (дюймы)")
+    screen_size = models.CharField(max_length=64, choices=SCREEN_SIZE_CHOICES, default='15.6', verbose_name="Размер экрана (дюймы)")
     operating_system = models.CharField(max_length=150, choices=[
                                                                 ('Windows 10', 'Windows 10'),
                                                                 ('Windows 11', 'Windows 11'),
@@ -38,8 +35,8 @@ class Laptop(models.Model):
                                                                  ],
                                         blank=True, null=True, verbose_name="Операционная система")
 
-    ram_size_gb = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Оперативная память (ГБ)")
-    storage_size_gb = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Объем SSD (ГБ)")
+    ram_size_gb = models.CharField(max_length=64, choices=RAM_CHOICES, default=16, verbose_name="Оперативная память (ГБ)")
+    storage_size_gb = models.CharField(max_length=64, choices=STORAGE_CHOICES, default='256GB', verbose_name="Объем SSD (ГБ)")
     cpu_model = models.CharField(null=True, blank=True, max_length=150, verbose_name="Модель процессора")
     gpu_model = models.CharField(null=True, blank=True, max_length=150, verbose_name="Модель видеокарты")
     cpu_cores = models.PositiveSmallIntegerField(null=True, blank=True, verbose_name="Количество ядер")
@@ -47,7 +44,7 @@ class Laptop(models.Model):
     keyboard_backlight = models.BooleanField(default=False, null=True, blank=True, verbose_name="Подсветка клавиатуры")
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
 
-    keys = models.TextField(null=True, blank=True, default=KEYS)
+    keys = models.TextField(null=True, blank=True, default=LAPTOP_KEYS)
 
     class Meta:
         verbose_name = 'Ноутбук'
@@ -93,7 +90,7 @@ class Printer(models.Model):
     description = models.TextField(verbose_name='Описание')
     price = models.IntegerField(verbose_name="Цена")
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
-    keys = models.TextField(null=True, blank=True)
+    keys = models.TextField(null=True, blank=True, default=PRINTER_KEYS)
 
     class Meta:
         verbose_name = 'Принтер'

@@ -5,13 +5,14 @@ from .models import LaptopImage, Laptop, ContactNumber, Contact, AboutUs, Warran
 
 class LaptopImageInline(admin.TabularInline):
     model = LaptopImage
-    extra = 1
+    extra = 0
 
 
 class LaptopAdmin(admin.ModelAdmin):
     inlines = [LaptopImageInline]
     list_display = ['name', 'ram_size_gb', 'cpu_model', 'articles', 'price']
     search_fields = ('articles', 'name')
+    list_filter = ('in_stock', 'screen_size', 'ram_size_gb', 'storage_size_gb')
     exclude = ('slug',)
 
 
@@ -20,7 +21,7 @@ admin.site.register(Laptop, LaptopAdmin)
 
 class PrinterImageInline(admin.TabularInline):
     model = PrinterImage
-    extra = 1
+    extra = 0
 
 
 class PrinterAdmin(admin.ModelAdmin):
