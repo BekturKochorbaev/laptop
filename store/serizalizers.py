@@ -18,7 +18,7 @@ class LaptopListSerializers(serializers.ModelSerializer):
     class Meta:
         model = Laptop
         fields = ['id', 'slug', 'name', 'discount', 'discount_price', 'in_stock', 'in_composition', 'articles', 'screen_size', 'ram_size_gb', 'cpu_model', 'brand', 'gpu_model',
-                  'operating_system', 'storage_size_gb', 'laptop_image', 'price', 'created_date']
+                  'operating_system', 'storage_size_gb', 'laptop_image', 'price', 'created_date', 'types']
 
     def get_discount_price(self, obj):
         return obj.get_discount_price()
@@ -43,7 +43,7 @@ class PrinterListSerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Printer
-        fields = ['id', 'slug', 'name', 'description', 'price', 'printer_image', 'created_date']
+        fields = ['id', 'slug', 'name', 'description', 'price', 'printer_image', 'created_date', 'types']
 
 
 class PrinterDetailSerializers(serializers.ModelSerializer):

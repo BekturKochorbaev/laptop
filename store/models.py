@@ -45,6 +45,7 @@ class Laptop(models.Model):
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
 
     keys = models.TextField(null=True, blank=True, default=LAPTOP_KEYS)
+    types = models.CharField(max_length=12, default='laptop')
 
     class Meta:
         verbose_name = 'Ноутбук'
@@ -91,6 +92,7 @@ class Printer(models.Model):
     price = models.IntegerField(verbose_name="Цена")
     created_date = models.DateTimeField(auto_now_add=True, editable=False)
     keys = models.TextField(null=True, blank=True, default=PRINTER_KEYS)
+    types = models.CharField(max_length=12, default='printer')
 
     class Meta:
         verbose_name = 'Принтер'

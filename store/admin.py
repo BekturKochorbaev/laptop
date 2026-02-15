@@ -13,7 +13,7 @@ class LaptopAdmin(admin.ModelAdmin):
     list_display = ['name', 'ram_size_gb', 'cpu_model', 'articles', 'price']
     search_fields = ('articles', 'name')
     list_filter = ('in_stock', 'screen_size', 'ram_size_gb', 'storage_size_gb')
-    exclude = ('slug',)
+    exclude = ('slug', 'types')
 
 
 admin.site.register(Laptop, LaptopAdmin)
@@ -27,7 +27,7 @@ class PrinterImageInline(admin.TabularInline):
 class PrinterAdmin(admin.ModelAdmin):
     inlines = [PrinterImageInline]
     list_display = ['name', 'price']
-    exclude = ('slug',)
+    exclude = ('slug', 'types')
 
 
 admin.site.register(Printer, PrinterAdmin)
