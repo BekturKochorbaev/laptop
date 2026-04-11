@@ -32,7 +32,7 @@ class LaptopListApiView(ListAPIView):
             openapi.Parameter('ram_size_gb', openapi.IN_QUERY, description="ОЗУ (ГБ)", type=openapi.TYPE_INTEGER),
             openapi.Parameter('gpu_model', openapi.IN_QUERY, description="Видеокарта", type=openapi.TYPE_STRING),
             openapi.Parameter('storage_size_gb', openapi.IN_QUERY, description="Память (ГБ)", type=openapi.TYPE_INTEGER),
-            openapi.Parameter('operation_system', openapi.IN_QUERY, description="Операционная система", type=openapi.TYPE_STRING),
+            openapi.Parameter('operating_system', openapi.IN_QUERY, description="Операционная система", type=openapi.TYPE_STRING),
         ]
     )
     def get(self, request, *args, **kwargs):
